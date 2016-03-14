@@ -125,6 +125,8 @@ class Choice(models.Model):
             raise ValidationError(
                 'Field named "%s" doesn\'t exist in %s.%s' % d)
 
+    def __unicode__(self):
+        return self.display
 
 class ChoiceAttribute(models.Model):
     choice = models.ForeignKey(Choice, related_name='attributes')
