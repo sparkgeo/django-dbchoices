@@ -108,7 +108,7 @@ class Choice(models.Model):
     objects = ChoiceManager()
 
     class Meta():
-        unique_together = ('content_type', 'field_name', 'value')
+        unique_together = ('content_type', 'field_name', 'value', 'display')
 
     def clean(self, *args, **kwargs):
         try:
