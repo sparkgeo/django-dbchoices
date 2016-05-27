@@ -3,6 +3,11 @@ Django DBChoices
 
 Database driven choices for django model fields.
 
+Requirements.txt
+-----------
+git+git://github.com/sparkgeo/django-dbchoices.git@master
+
+(then pip install)
 
 Quick start
 -----------
