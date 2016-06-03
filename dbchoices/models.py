@@ -81,13 +81,14 @@ class ChoiceManager(models.Manager):
         cs = self._query(content_type, field_name, *args, **kwargs)
         cast = self._get_value_cast(content_type, field_name)
 
-        return [(cast(c.value), c.display,) for c in cs]
+        return [(cast(c.value), c.display,) if c.category is None else (c.category, (cast(c.value), c.display,)) for c in cs]
 
     def asdict(self, content_type, field_name, *args, **kwargs):
         cs = self._query(content_type, field_name, *args, **kwargs)
         cast = self._get_value_cast(content_type, field_name)
         return [{'value': cast(c.value),
                  'display': c.display,
+                 'category': c.category,
                  'order': c.order,
                  'attributes': dict([(a.key, a.value)
                                      for a in c.attributes.all()]),
@@ -100,6 +101,7 @@ class ChoiceManager(models.Manager):
 
 class Choice(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255, null=True, blank=True)
     field_name = models.CharField(max_length=100)
     display = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
@@ -108,7 +110,7 @@ class Choice(models.Model):
     objects = ChoiceManager()
 
     class Meta():
-        unique_together = ('content_type', 'field_name', 'value', 'display')
+        unique_together = ('content_type', 'category', 'field_name', 'value', 'display')
 
     def clean(self, *args, **kwargs):
         try:
