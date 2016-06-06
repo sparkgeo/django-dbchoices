@@ -72,9 +72,9 @@ class ChoiceManager(models.Manager):
                 'content_type__model': model
             }
 
-            qs = self.filter(**p)
+            qs = qs.filter(**p)
         else:
-            qs = self.filter(content_type=content_type)
+            qs = qs.filter(content_type=content_type)
         return qs.order_by('order')
 
     def choices(self, content_type, field_name, *args, **kwargs):
