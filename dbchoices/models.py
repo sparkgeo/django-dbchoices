@@ -81,7 +81,7 @@ class ChoiceManager(models.Manager):
         cs = self._query(content_type, field_name, *args, **kwargs)
         cast = self._get_value_cast(content_type, field_name)
 
-        return [(cast(c.value), c.display,) if c.category is None else (c.category, (cast(c.value), c.display,)) for c in cs]
+        return [(cast(c.value), c.display,) if c.category is None or len(c.category) == 0 else (c.category, (cast(c.value), c.display,)) for c in cs]
 
     def asdict(self, content_type, field_name, *args, **kwargs):
         cs = self._query(content_type, field_name, *args, **kwargs)
