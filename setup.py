@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
@@ -9,13 +9,13 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-dbchoices',
-    version='0.2',
-    packages=['dbchoices'],
+    version='0.2.1',
+    packages=find_packages() + ['dbchoices'],
     include_package_data=True,
     license='BSD License',
     description='',
     long_description=README,
-    url='https://www.example.com/',
+    url='https://sparkgeo.com/',
     author='Dustin Sampson',
     author_email='dustin@sparkgeo.com',
     classifiers=[
