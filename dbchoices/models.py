@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 import django.db.models.options as model_options
 from django.core.exceptions import ValidationError
 
+
 try:
     from django.apps.apps import get_model
 except ImportError:
@@ -81,7 +82,20 @@ class ChoiceManager(models.Manager):
         cs = self._query(content_type, field_name, *args, **kwargs)
         cast = self._get_value_cast(content_type, field_name)
 
-        return [(cast(c.value), c.display,) if c.category is None or len(c.category) == 0 else (c.category, (cast(c.value), c.display,)) for c in cs]
+        index = {}
+        out = []
+        n = 0
+        for c in cs:
+            if c.category is None or len(c.category) == 0:
+                out.append((cast(c.value), c.display,))
+                n += 1
+            else:
+                if c.category not in index:
+                    index[c.category] = n
+                    out[index[c.category]].append([])
+                    n += 1
+                out[index[c.category]][1].append((cast(c.value), c.display,))
+        return out
 
     def asdict(self, content_type, field_name, *args, **kwargs):
         cs = self._query(content_type, field_name, *args, **kwargs)
