@@ -92,7 +92,7 @@ class ChoiceManager(models.Manager):
             else:
                 if c.category not in index:
                     index[c.category] = n
-                    out[index[c.category]].append([])
+                    out.append((c.category, [],))
                     n += 1
                 out[index[c.category]][1].append((cast(c.value), c.display,))
         return out
