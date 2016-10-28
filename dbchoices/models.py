@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 
 
 try:
-    from django.apps.apps import get_model
+    from django import apps
+    get_model = apps.apps.get_model
 except ImportError:
     from django.db.models.loading import get_model
 
